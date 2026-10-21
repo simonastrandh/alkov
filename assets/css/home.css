@@ -15,58 +15,20 @@
   display: grid;
   place-items: center;
 }
-.hero__photo {
+.hero__photo,
+.hero__video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center 20%;
-  filter: brightness(.5);
+  filter: brightness(.36);       /* mörk "skugga" över både bild och film */
 }
-/* Bilden tonar ut i den grå bakgrunden längst ner */
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: auto 0 0 0;
-  height: 45%;
-  background: linear-gradient(to bottom,
-    rgba(29, 28, 30, 0) 0%,
-    rgba(29, 28, 30, .55) 45%,
-    rgba(29, 28, 30, .9) 75%,
-    var(--color-dark) 100%);
-  pointer-events: none;
-}
-
-.scroll-hint {
-  position: absolute;
-  left: 50%;
-  bottom: clamp(1.5rem, 6vh, 3.5rem);
-  z-index: 1;
-  transform: translateX(-50%);
-  color: var(--color-cream);
-  opacity: .7;
-  pointer-events: none;
-}
-.scroll-hint svg {
-  display: block;
-  width: 1.4rem;
-  height: 1.4rem;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  animation: hint-bob 2s ease-in-out infinite;
-}
-@keyframes hint-bob {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(5px); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .scroll-hint svg { animation: none; }
-}
-
+/* Filmen tonar in över stillbilden när den börjat spela */
+.hero__video { opacity: 0; transition: opacity 1.2s ease; }
+.hero__video.is-playing { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .hero__video { display: none; } }
 .hero__content {
   position: relative;
   display: flex;

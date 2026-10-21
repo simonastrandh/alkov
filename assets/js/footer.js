@@ -8,7 +8,7 @@
     <div class="page-footer__inner">
       <div class="page-footer__brand">
         <a href="${base}index.html" aria-label="Alkov, till startsidan">
-          <img src="${base}assets/images/alkov-logga-ljus.png" alt="Alkov" width="1694" height="465">
+          <img src="${base}assets/images/alkov-logga-ljus.png" alt="Alkov" width="1694" height="465" loading="lazy" decoding="async">
         </a>
         <p>En varm bistro för sena kvällar och goda vänner.</p>
         <p>Tack för att ni besöker oss!</p>

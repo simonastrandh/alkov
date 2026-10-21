@@ -19,16 +19,16 @@
 
   <!-- Hero: foto + logga -->
   <header class="hero">
-    <img class="hero__photo" src="assets/images/hero.jpg" alt="Bardisken på Alkov">
+    <!-- Stillbilden visas direkt; filmen läggs över och startas först när sidan laddats (se hero-video.js) -->
+    <img class="hero__photo" src="assets/images/hero-poster.jpg" alt="Gäster på Alkov" fetchpriority="high" width="1280" height="720">
+    <video class="hero__video" id="heroVideo" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"
+           data-src-large="assets/video/hero-1280.mp4" data-src-small="assets/video/hero-768.mp4"></video>
     <div class="hero__content">
       <img class="hero__logo" src="bilder/logo.png" alt="Alkov">
       <div class="hero__cta">
         <a class="hero__btn hero__btn--outline" href="#meny" data-scroll="menu">Upptäck menyn</a>
         <a class="hero__btn hero__btn--filled" href="#pour" data-scroll="hours">Öppettider</a>
       </div>
-    </div>
-    <div class="scroll-hint" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><path d="M12 4v15M6 13l6 6 6-6"/></svg>
     </div>
   </header>
 
@@ -111,8 +111,8 @@
 
         <!-- Teckningar bredvid öppettiderna: espresso martini till vänster, törstig gubbe till höger -->
         <div class="hours__decor" aria-hidden="true">
-          <img class="hours__glass" src="assets/images/espresso-martini.png" alt="" width="966" height="1283">
-          <img class="hours__guy" src="assets/images/gubbe-torstig.png" alt="" width="952" height="1024">
+          <img class="hours__glass" src="assets/images/espresso-martini.png" alt="" width="966" height="1283" loading="lazy" decoding="async">
+          <img class="hours__guy" src="assets/images/gubbe-torstig.png" alt="" width="952" height="1024" loading="lazy" decoding="async">
         </div>
       </div>
     </div>
@@ -123,12 +123,13 @@
   <section class="menu" id="meny" aria-labelledby="menu-title">
     <h2 id="menu-title">Meny</h2>
     <a class="menu__card" href="pages/meny.html" data-menu-link aria-label="Öppna menyn">
-      <img src="bilder/meny_alkov.png" alt="Alkovs meny med en ritad ostron" width="343" height="588">
+      <img src="bilder/meny_alkov.png" alt="Alkovs meny med en ritad ostron" width="343" height="588" loading="lazy" decoding="async">
     </a>
     <a class="btn" href="pages/meny.html" data-menu-link>Se Meny</a>
   </section>
 
 
+  <script src="assets/js/hero-video.js"></script>
   <script src="assets/js/main.js"></script>
   <script src="assets/js/menu-data-v2.js"></script>
   <script src="assets/js/menu-v2.js"></script>
