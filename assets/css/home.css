@@ -324,7 +324,9 @@
 
 /* vinscenen: vinet fortsätter ner bakom adressfältet medan det stiger */
 .over .pour__stage {
-  overflow: visible;
+  overflow-x: clip;                          /* inget får sticka ut i sidled (då blir sidan för bred) */
+  overflow-y: visible;
   clip-path: inset(calc(-1 * var(--over-top)) 0 calc(-1 * var(--over-bot)) 0);
 }
 .over .wine { overflow: visible; }
+.over body { overflow-x: clip; }            /* extra skydd mot att sidan blir bredare än skärmen */
