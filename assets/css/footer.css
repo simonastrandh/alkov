@@ -67,3 +67,6 @@
 /* På undersidor ligger sidfoten längst ner i fönstret även när innehållet är kort */
 body:not(.home) { display: flex; flex-direction: column; min-height: 100vh; }
 body:not(.home) .page-footer { margin-top: auto; }
+
+/* Ytan under sidans slut (bakom adressfältet på mobil) får sidfotens färg, så att det inte blir en grå remsa */
+html { background: #151416; }

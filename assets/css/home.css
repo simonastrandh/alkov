@@ -301,3 +301,30 @@
   .wine, .band-edge { z-index: 2; }
   .hours { z-index: 3; }
 }
+
+/* ---------- iPhone/iPad: låt sidan synas bakom Safaris fält ----------
+   Safari på iPhone ritar sidan även bakom statusfältet (klockan) och adressfältet, men själva
+   "skärmen" som sidan räknar med slutar före dem. Därför sträcker vi ut toppfilmen och
+   vinscenen en bit utanför den ytan, så att de syns bakom fälten i stället för grå bakgrund.
+   Klassen .over sätts av ett litet skript i <head> (bara på iPhone/iPad, eller med ?over i adressen). */
+.over { --over-top: 70px; --over-bot: 110px; }
+
+/* toppen: filmen går upp bakom klockan och ner bakom adressfältet */
+.over .hero {
+  height: calc(100lvh + var(--over-bot));
+  padding-bottom: var(--over-bot);          /* loggan och knapparna ligger kvar mitt på den synliga ytan */
+  overflow: visible;
+  clip-path: inset(calc(-1 * var(--over-top)) 0 0 0);
+}
+.over .hero__photo,
+.over .hero__video {
+  top: calc(-1 * var(--over-top));
+  height: calc(100% + var(--over-top));
+}
+
+/* vinscenen: vinet fortsätter ner bakom adressfältet medan det stiger */
+.over .pour__stage {
+  overflow: visible;
+  clip-path: inset(calc(-1 * var(--over-top)) 0 calc(-1 * var(--over-bot)) 0);
+}
+.over .wine { overflow: visible; }
