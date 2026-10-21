@@ -21,6 +21,10 @@
   const ripple     = document.getElementById('ripple');
   const hours   = document.getElementById('hours');
   const tagline = section.querySelector('.pour__tagline');
+  const LEAD = 0.75;          // hur tidigt animationen startar (andel av skärmhöjden)
+  const LIFT_START = 0.3;     // mobil: flaskan börjar följa med uppåt när den vinklats färdigt
+  let lastLift = 0;
+  const narrowMq = window.matchMedia('(max-width: 800px)');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   // Det röda vinet är ett band med vågig över- och underkant. Bandet har alltid samma höjd
   // (BAND av skärmhöjden, plus den statiska vågen under). Det stiger tills överkanten ligger RED_TOP ner på skärmen,
@@ -129,7 +133,7 @@
   function progress() {
     // Startar redan när scenen kommit en bit upp på skärmen (före den låsts fast)
     const r = section.getBoundingClientRect();
-    const lead = window.innerHeight * 0.75;
+    const lead = window.innerHeight * LEAD;
     return clamp((lead - r.top) / (r.height - window.innerHeight + lead));
   }
 
@@ -141,9 +145,25 @@
     // 1. Flaskan roterar och lyfts lite
     const rot = ease(range(p, 0, 0.3));
     const angle = FINAL_ANGLE * rot;
-    const narrow = W < 700;
+    const narrow = narrowMq.matches;   // samma gräns som i CSS (max-width: 800px)
     bottle.style.top = lerp(narrow ? 70 : 40, narrow ? 64 : 30, rot) + '%';
-    bottle.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+
+    // Mobil: när flaskan är färdigvinklad och häller följer den (och texten ovanför) med uppåt
+    // när man scrollar, ungefär som vanligt innehåll. När hela flaskan nästan nått skärmens topp
+    // stannar den, täcks av det stigande vinet och tonar bort. På dator står allt still som förut.
+    let lift = 0;
+    if (narrow) {
+      const want = Math.max(0, p - LIFT_START) *
+        (section.offsetHeight - window.innerHeight + window.innerHeight * LEAD);
+      if (want > 0) {
+        const br = bottle.getBoundingClientRect();
+        const baseline = br.top - stage.getBoundingClientRect().top + lastLift;   // flaskans topp utan lyft
+        lift = Math.min(want, Math.max(0, baseline - 14));
+      }
+    }
+    lastLift = lift;
+    tagline.style.transform = lift ? `translateY(${-lift}px)` : '';
+    bottle.style.transform = `translate(-50%, -50%) translateY(${-lift}px) rotate(${angle}deg)`;
 
     // 2. Vinytan stiger från under skärmen till ovanför
     // Accelererande stigning, så att farten vid släppet matchar scrollfarten (ingen stillastående stund)
@@ -177,8 +197,15 @@
       ripple.setAttribute('d', '');
     }
 
-    // Flaskan tonar ut när vinytan når upp till den
-    bottle.style.opacity = clamp((base - my + 40) / 140);
+    // Flaskan tonar ut när vinet når den
+    if (narrow) {
+      // mobil: vinet täcker flaskan underifrån, och den tonar bort när den täckts för mycket
+      const bb = bottle.getBoundingClientRect();
+      const covered = (bb.bottom - s.top - base) / bb.height;
+      bottle.style.opacity = 1 - clamp((covered - 0.12) / 0.4);
+    } else {
+      bottle.style.opacity = clamp((base - my + 40) / 140);
+    }
 
     // 4. Text in/ut
     tagline.style.opacity = 1 - range(p, 0.5, 0.65);

@@ -114,16 +114,23 @@
   overflow: hidden;
 }
 
+.pour__stage { --bottle-h: min(56vh, 70vw); }   /* flaskans höjd */
+
 .pour__tagline {
+  /* Textspalten smalnar av så att den aldrig hamnar under flaskan */
+  --col: min(34rem, max(15rem, calc(72vw - 0.55 * var(--bottle-h) - 8vw - 2rem)));
   position: absolute;
   left: 8%;
   top: 16%;
-  width: min(34rem, 84vw);
-  font-size: clamp(1.6rem, 3.4vw, 3rem);
+  width: var(--col);
   font-weight: 600;
   line-height: 1.2;
 }
-.pour__headline { max-width: 22ch; }
+/* Rubriken: alltid två rader. Teckenstorleken anpassas så att första raden ryms i spalten. */
+.pour__headline {
+  font-size: min(clamp(1.6rem, 3.4vw, 3rem), calc(var(--col) / 12.2));
+}
+.pour__headline span { display: block; white-space: nowrap; }
 
 .pour__sub {
   margin-top: 1rem;
@@ -133,28 +140,47 @@
   opacity: .85;
 }
 
-.pour__quote,
-.pour__author {
-  margin: 0;
-  padding-left: 1rem;
-  border-left: 1px solid var(--color-bottle);
+.pour__quote {
+  --q: clamp(.95rem, 1.3vw, 1.15rem);   /* citatets teckenstorlek */
+  --lh: 1.6;                              /* citatets radhöjd */
+  position: relative;
+  margin: clamp(1.8rem, 5vh, 3rem) 0 0;
+  padding-left: clamp(1.4rem, 2.4vw, 2rem);
+  border-left: 2px solid rgba(125, 34, 56, .75);   /* en gemensam linje för citat och namn */
   font-weight: 300;
 }
-.pour__quote { margin-top: clamp(1.4rem, 4vh, 2.6rem); }
-.pour__quote p {
-  font-size: clamp(.95rem, 1.25vw, 1.1rem);
-  line-height: 1.6;
-  opacity: .85;
+/* Citattecknet sitter mitt på linjen, i höjd med citatets första rad. Rutan i bakgrundsfärgen
+   täcker linjen längs första raden, så att linjen "börjar" under tecknet. */
+.pour__quote::before {
+  content: "\201C";
+  position: absolute;
+  left: -1px;                                    /* mitten av den 2 px breda linjen */
+  top: 0;
+  transform: translateX(-50%);
+  box-sizing: border-box;
+  height: calc(var(--q) * var(--lh));            /* exakt första radens höjd */
+  padding: .3em .25em 0;                          /* tecknet ligger högt i sin ruta, så det trycks ner lite */
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--color-bottle);
+  background: var(--color-dark);
 }
-.pour__author { margin-top: clamp(1.2rem, 3.5vh, 2.2rem); }
-.pour__author-name { font-size: clamp(.95rem, 1.25vw, 1.1rem); font-weight: 400; line-height: 1.5; }
-.pour__author-role { font-size: clamp(.85rem, 1.1vw, 1rem); line-height: 1.5; opacity: .7; }
+.pour__quote blockquote { margin: 0; }
+.pour__quote p {
+  margin: 0;
+  font-size: var(--q);
+  line-height: var(--lh);
+}
+.pour__quote blockquote p { opacity: .9; }
+.pour__quote figcaption { margin-top: 1.4em; }
+.pour__author-name { opacity: .95; }
+.pour__author-role { opacity: .78; }
 
 .bottle {
   position: absolute;
   left: 72%;
   top: 40%;
-  height: min(56vh, 70vw);
+  height: var(--bottle-h);
   width: auto;
   aspect-ratio: 160 / 480;
   color: var(--color-bottle);
@@ -305,8 +331,12 @@
 
 
 /* Mobil */
-@media (max-width: 700px) {
-  .pour__tagline { top: 5%; left: 6%; width: 88vw; }
-  .pour__quote p { font-size: .9rem; line-height: 1.5; }
-  .bottle { left: 62%; top: 70%; }
+/* Smal skärm: flaskan hoppar ner under texten och spalten får hela bredden */
+@media (max-width: 800px) {
+  .pour__tagline { --col: min(88vw, 36rem); top: 5%; left: 6%; }
+  .pour__quote { --q: .92rem; --lh: 1.55; }
+  .bottle { left: 62%; top: 70%; z-index: 1; }
+  /* vinet ligger över flaskan så att det täcker den när det stiger */
+  .wine, .band-edge { z-index: 2; }
+  .hours { z-index: 3; }
 }
