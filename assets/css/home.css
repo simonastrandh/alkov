@@ -1,0 +1,312 @@
+/* ---------- Startsida ---------- */
+
+.home {
+  background: var(--color-dark);
+  color: var(--color-cream);
+  font-family: var(--font-serif);
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.hero__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  filter: brightness(.5);
+}
+/* Bilden tonar ut i den grå bakgrunden längst ner */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 45%;
+  background: linear-gradient(to bottom,
+    rgba(29, 28, 30, 0) 0%,
+    rgba(29, 28, 30, .55) 45%,
+    rgba(29, 28, 30, .9) 75%,
+    var(--color-dark) 100%);
+  pointer-events: none;
+}
+
+.scroll-hint {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(1.5rem, 6vh, 3.5rem);
+  z-index: 1;
+  transform: translateX(-50%);
+  color: var(--color-cream);
+  opacity: .7;
+  pointer-events: none;
+}
+.scroll-hint svg {
+  display: block;
+  width: 1.4rem;
+  height: 1.4rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: hint-bob 2s ease-in-out infinite;
+}
+@keyframes hint-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(5px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-hint svg { animation: none; }
+}
+
+.hero__content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(2rem, 8vh, 4.5rem);
+  margin-top: -4%;
+}
+.hero__logo {
+  width: min(560px, 72vw);
+}
+.hero__cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+.hero__btn {
+  padding: .8rem 1.7rem;
+  border: 1px solid transparent;
+  color: var(--color-cream);
+  font-size: .85rem;
+  font-weight: 400;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+.hero__btn--outline { border-color: rgba(239, 227, 211, .55); }
+.hero__btn--filled  { background: var(--color-wine); border-color: var(--color-wine); }
+.hero__btn:hover,
+.hero__btn:focus-visible { background: var(--color-cream); border-color: var(--color-cream); color: var(--color-dark); }
+.hero__btn:focus-visible { outline: 2px solid var(--color-cream); outline-offset: 4px; }
+
+/* Scrollscen */
+.pour {
+  position: relative;
+  height: 260vh;           /* scrollsträckan för animationen */
+}
+.pour__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.pour__tagline {
+  position: absolute;
+  left: 8%;
+  top: 16%;
+  width: min(34rem, 84vw);
+  font-size: clamp(1.6rem, 3.4vw, 3rem);
+  font-weight: 600;
+  line-height: 1.2;
+}
+.pour__headline { max-width: 22ch; }
+
+.pour__sub {
+  margin-top: 1rem;
+  font-size: clamp(1rem, 1.5vw, 1.35rem);
+  font-weight: 300;
+  line-height: 1.4;
+  opacity: .85;
+}
+
+.pour__quote,
+.pour__author {
+  margin: 0;
+  padding-left: 1rem;
+  border-left: 1px solid var(--color-bottle);
+  font-weight: 300;
+}
+.pour__quote { margin-top: clamp(1.4rem, 4vh, 2.6rem); }
+.pour__quote p {
+  font-size: clamp(.95rem, 1.25vw, 1.1rem);
+  line-height: 1.6;
+  opacity: .85;
+}
+.pour__author { margin-top: clamp(1.2rem, 3.5vh, 2.2rem); }
+.pour__author-name { font-size: clamp(.95rem, 1.25vw, 1.1rem); font-weight: 400; line-height: 1.5; }
+.pour__author-role { font-size: clamp(.85rem, 1.1vw, 1rem); line-height: 1.5; opacity: .7; }
+
+.bottle {
+  position: absolute;
+  left: 72%;
+  top: 40%;
+  height: min(56vh, 70vw);
+  width: auto;
+  aspect-ratio: 160 / 480;
+  color: var(--color-bottle);
+  transform-origin: 50% 55%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  will-change: transform;
+}
+.bottle .bottle__glass { fill: var(--color-dark); }
+
+.wine {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.wine__body   { fill: var(--color-wine); }
+/* Vinstrålen: samma handritade linjer som flaskan och vågorna */
+.stream__fill { fill: var(--color-wine); stroke: none; }
+.stream__edge {
+  fill: none;
+  stroke: var(--color-bottle);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.stream__edge--thin { stroke-width: 1.6; opacity: .7; stroke-dasharray: 46 16 22 12; }
+.stream__ripple { stroke-width: 2.4; }
+.wine__line {
+  fill: none;
+  stroke: var(--color-bottle);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 140 26 60 18;
+}
+.wine__line--thin { stroke-width: 2; stroke-dasharray: 90 34 160 22; }
+
+/* Öppettider */
+.hours {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding-inline: 1rem;
+  text-align: center;
+  transform: translateY(100vh);   /* JS lägger texten precis under vinytan */
+  transform-origin: 50% 0;
+  will-change: transform;
+}
+/* Storlekar följer även skärmens höjd så att texten ryms på låga skärmar */
+.hours h2 {
+  font-size: clamp(1.8rem, min(6vw, 6.8vh), 4.5rem);
+  font-weight: 700;
+  margin-bottom: min(2.5rem, 3.2vh);
+}
+.hours dl { display: grid; gap: min(2rem, 2.6vh); }
+.hours dt { font-size: clamp(1.1rem, min(2.4vw, 3.5vh), 2rem); font-weight: 600; }
+.hours dd { margin: 0; font-size: clamp(.95rem, min(1.8vw, 2.8vh), 1.5rem); opacity: .85; }
+
+/* Bandets underkant (statisk våg som följer med det röda) */
+.pour__stage { --wave-h: clamp(80px, 11vw, 160px); }
+.band-edge {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: var(--wave-h);
+  pointer-events: none;
+  will-change: transform;
+  transform: translateY(100vh);
+}
+.band-edge__fill { fill: var(--color-wine); }
+.band-edge__line {
+  fill: none;
+  stroke: var(--color-bottle);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 140 26 60 18;
+  vector-effect: non-scaling-stroke;
+}
+.band-edge__line--thin { stroke-width: 2; stroke-dasharray: 90 34 160 22; }
+
+/* Teckningar vid öppettiderna */
+.hours__decor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.hours__glass,
+.hours__guy {
+  position: absolute;
+  height: auto;
+}
+.hours__decor { --gap: clamp(5.5rem, 22vw, 30rem); }  /* avstånd från mitten till teckningarna */
+.hours__glass {
+  right: calc(50% + var(--gap));
+  top: 18%;
+  width: clamp(120px, min(21vw, 27vh), 300px);
+}
+.hours__guy {
+  left: calc(50% + var(--gap));
+  top: 36%;
+  width: clamp(125px, min(20vw, 26vh), 290px);
+}
+/* Teckningarna ligger alltid bredvid texten. Får de inte plats klipps de av i skärmkanten. */
+
+/* Meny */
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  padding: clamp(2rem, 5vw, 4rem) 1rem clamp(4rem, 10vw, 7rem);
+  text-align: center;
+  background: var(--color-dark);
+}
+.menu h2 {
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 700;
+}
+.menu__card {
+  display: block;
+  width: clamp(180px, 22vw, 300px);
+  transition: transform .25s ease;
+}
+.menu__card img { width: 100%; height: auto; }
+.menu__card:hover,
+.menu__card:focus-visible { transform: translateY(-4px) rotate(-1deg); }
+
+.btn {
+  display: inline-block;
+  padding: .7rem 1.7rem;
+  border: 2px solid var(--color-cream);
+  color: var(--color-cream);
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-decoration: none;
+  transition: background-color .2s ease, color .2s ease;
+}
+.btn:hover,
+.btn:focus-visible { background: var(--color-cream); color: var(--color-dark); }
+.menu a:focus-visible { outline: 3px solid var(--color-cream); outline-offset: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .menu__card, .btn { transition: none; }
+  .menu__card:hover, .menu__card:focus-visible { transform: none; }
+}
+
+
+/* Mobil */
+@media (max-width: 700px) {
+  .pour__tagline { top: 5%; left: 6%; width: 88vw; }
+  .pour__quote p { font-size: .9rem; line-height: 1.5; }
+  .bottle { left: 62%; top: 70%; }
+}

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alkov – Bistro</title>
+  <meta name="description" content="Alkov – en bistro av två nära vänner, för nära vänner.">
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/reset.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/home.css">
+  <link rel="stylesheet" href="assets/css/menu-v2.css">
+  <link rel="stylesheet" href="assets/css/footer.css">
+</head>
+<body class="home">
+
+  <!-- Hero: foto + logga -->
+  <header class="hero">
+    <img class="hero__photo" src="assets/images/hero.jpg" alt="Bardisken på Alkov">
+    <div class="hero__content">
+      <img class="hero__logo" src="bilder/logo.png" alt="Alkov">
+      <div class="hero__cta">
+        <a class="hero__btn hero__btn--outline" href="#meny" data-scroll="menu">Upptäck menyn</a>
+        <a class="hero__btn hero__btn--filled" href="#pour" data-scroll="hours">Öppettider</a>
+      </div>
+    </div>
+    <div class="scroll-hint" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M12 4v15M6 13l6 6 6-6"/></svg>
+    </div>
+  </header>
+
+  <!-- Scrollstyrd scen: flaskan tippar, häller, vinet fyller skärmen -->
+  <section class="pour" id="pour" aria-label="Om oss och öppettider">
+    <div class="pour__stage">
+      <div class="pour__tagline">
+        <p class="pour__headline">En bistro av två vänner –<br>för vänner</p>
+        <p class="pour__sub">Mat, dryck, god stämning och allt där emellan</p>
+
+        <blockquote class="pour__quote">
+          <p>“Vi startade Bar Alkov med en enkel vision: att bygga den atmosfär vi alltid sökt. Här serveras välkomponerade rätter som ett komplement till drycken. Noga utvalda viner i vår smak och ett varmt hej i dörren.”</p>
+        </blockquote>
+        <div class="pour__author">
+          <p class="pour__author-name">Alvin &amp; Moritz</p>
+          <p class="pour__author-role">Grundare &amp; goda vänner</p>
+        </div>
+      </div>
+
+
+      <svg class="wine" id="wine" aria-hidden="true">
+        <defs>
+          <filter id="roughStream">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="7"/>
+            <feDisplacementMap in="SourceGraphic" scale="3"/>
+          </filter>
+        </defs>
+        <!-- Vinstrålen: fyllt band med handritade konturer -->
+        <g class="stream" id="stream" filter="url(#roughStream)" style="display:none">
+          <path class="stream__fill" id="streamFill"/>
+          <path class="stream__edge" id="streamL"/>
+          <path class="stream__edge" id="streamR"/>
+          <path class="stream__edge stream__edge--thin" id="streamMid"/>
+        </g>
+        <path class="wine__body" id="wineBody"/>
+        <path class="wine__line" id="wave1"/>
+        <path class="wine__line wine__line--thin" id="wave2"/>
+        <path class="stream__edge stream__ripple" id="ripple" filter="url(#roughStream)"/>
+      </svg>
+
+      <!-- Bandets underkant: den statiska vågen (ej animerad), sitter fast under det röda och följer med det -->
+      <svg class="band-edge" id="bandEdge" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+        <path class="band-edge__fill" d="M0,0 H1440 V60 Q1380,100 1320,60 T1200,60 T1080,60 T960,60 T840,60 T720,60 T600,60 T480,60 T360,60 T240,60 T120,60 T0,60 Z"/>
+        <path class="band-edge__line" d="M1440,76 Q1380,116 1320,76 T1200,76 T1080,76 T960,76 T840,76 T720,76 T600,76 T480,76 T360,76 T240,76 T120,76 T0,76"/>
+        <path class="band-edge__line band-edge__line--thin" d="M1440,92 Q1380,128 1320,92 T1200,92 T1080,92 T960,92 T840,92 T720,92 T600,92 T480,92 T360,92 T240,92 T120,92 T0,92"/>
+      </svg>
+
+      <svg class="bottle" id="bottle" viewBox="0 0 160 480" aria-hidden="true">
+        <defs>
+          <filter id="rough">
+            <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4"/>
+            <feDisplacementMap in="SourceGraphic" scale="3.5"/>
+          </filter>
+        </defs>
+        <g filter="url(#rough)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <!-- kontur (dubbel för handritad känsla) -->
+          <path class="bottle__glass" stroke-width="4" d="M66,24 L66,140 C66,175 22,185 22,225 L22,450 Q22,468 40,468 L120,468 Q138,468 138,450 L138,225 C138,185 94,175 94,140 L94,24"/>
+          <path stroke-width="1.6" opacity=".7" d="M68,26 L67,142 C67,178 25,188 25,228 L24,452 Q25,465 42,465 L119,466 Q136,465 135,449 L136,226 C136,188 93,178 92,141 L92,26"/>
+          <!-- mynning och kork -->
+          <rect x="60" y="8" width="40" height="18" rx="4" stroke-width="3.5"/>
+          <path stroke-width="2.5" d="M66,40 L94,40 M66,48 L94,48"/>
+          <!-- etikett -->
+          <rect x="34" y="268" width="92" height="134" rx="3" stroke-width="3"/>
+          <path stroke-width="2.2" d="M48,300 q8,-12 14,4 t14,-2 M50,326 l6,22 m6,-22 q4,14 10,4 q6,-10 10,8 M88,300 l4,40 M100,312 q6,8 2,20 q-4,8 6,14 M54,372 q20,-8 50,2"/>
+          <!-- glans -->
+          <path stroke-width="2" opacity=".6" d="M120,236 L121,440 M84,40 L84,132"/>
+        </g>
+        <circle id="mouth" cx="80" cy="9" r="1" fill="none"/>
+      </svg>
+
+      <div class="hours" id="hours">
+        <h2>Öppettider</h2>
+        <dl>
+          <div><dt>Måndag</dt><dd>Stängt</dd></div>
+          <div><dt>Tisdag – Lördag</dt><dd>16:00 – 23:00</dd></div>
+          <div><dt>Söndag</dt><dd>17:00 – 22:00</dd></div>
+        </dl>
+
+        <!-- Teckningar bredvid öppettiderna: espresso martini till vänster, törstig gubbe till höger -->
+        <div class="hours__decor" aria-hidden="true">
+          <img class="hours__glass" src="assets/images/espresso-martini.png" alt="" width="966" height="1283">
+          <img class="hours__guy" src="assets/images/gubbe-torstig.png" alt="" width="952" height="1024">
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Meny (grå bakgrund) -->
+  <section class="menu" id="meny" aria-labelledby="menu-title">
+    <h2 id="menu-title">Meny</h2>
+    <a class="menu__card" href="pages/meny.html" data-menu-link aria-label="Öppna menyn">
+      <img src="bilder/meny_alkov.png" alt="Alkovs meny med en ritad ostron" width="343" height="588">
+    </a>
+    <a class="btn" href="pages/meny.html" data-menu-link>Se Meny</a>
+  </section>
+
+
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/menu-data-v2.js"></script>
+  <script src="assets/js/menu-v2.js"></script>
+  <script src="assets/js/menu-flip-v2.js"></script>
+  <script src="assets/js/footer.js"></script>
+</body>
+</html>

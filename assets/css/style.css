@@ -1,0 +1,39 @@
+:root {
+  /* Alkovs färger */
+  --color-dark: #1d1c1e;
+  --color-wine: #5c1f2c;
+  --color-bottle: #7d2238;
+  --color-logo: #6b1f33;
+  --color-cream: #efe3d3;
+  --color-bg: var(--color-dark);
+  --color-text: var(--color-cream);
+  --color-accent: var(--color-bottle);
+
+  --font-serif: "Fraunces", Georgia, serif;
+  --font-body: var(--font-serif);
+  --max-width: 70rem;
+  --space: 1.5rem;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+
+/* Undersidor */
+main, .site-header, .site-footer {
+  width: min(100% - 2 * var(--space), var(--max-width));
+  margin-inline: auto;
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: var(--space);
+}
+.site-header ul { display: flex; gap: var(--space); list-style: none; padding: 0; }
+.logo { font-weight: 700; text-decoration: none; font-size: 1.25rem; }
+
+.site-footer { padding-block: var(--space); font-size: .875rem; opacity: .7; }

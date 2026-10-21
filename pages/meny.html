@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meny – Alkov</title>
+  <meta name="description" content="Menyn på Alkov.">
+  <link rel="icon" href="../assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/footer.css">
+  <link rel="stylesheet" href="../assets/css/menu-v2.css">
+</head>
+<body class="menu-page">
+  <div id="menu-root"></div>
+  <noscript><p style="padding:2rem">Menyn kräver JavaScript.</p></noscript>
+
+  <script src="../assets/js/menu-data-v2.js"></script>
+  <script src="../assets/js/menu-v2.js"></script>
+  <script>AlkovMenu.renderPage(document.getElementById('menu-root'), '../');</script>
+  <script src="../assets/js/footer.js" data-base="../"></script>
+</body>
+</html>
