@@ -10,7 +10,7 @@
 .hero {
   position: relative;
   height: 100vh;
-  height: 100svh;
+  height: 100lvh;          /* hela skärmen, även bakom statusfältet och adressfältet */
   overflow: hidden;
   display: grid;
   place-items: center;
@@ -71,7 +71,7 @@
   position: sticky;
   top: 0;
   height: 100vh;
-  height: 100svh;
+  height: 100lvh;          /* hela skärmen, även bakom webbläsarens fält */
   overflow: hidden;
 }
 
@@ -294,7 +294,7 @@
 /* Mobil */
 /* Smal skärm: flaskan hoppar ner under texten och spalten får hela bredden */
 @media (max-width: 800px) {
-  .pour__tagline { --col: min(88vw, 36rem); top: 5%; left: 6%; }
+  .pour__tagline { --col: min(88vw, 36rem); top: max(5%, calc(env(safe-area-inset-top, 0px) + 14px)); left: 6%; }
   .pour__quote { --q: .92rem; --lh: 1.55; }
   .bottle { left: 62%; top: 70%; z-index: 1; }
   /* vinet ligger över flaskan så att det täcker den när det stiger */

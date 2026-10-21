@@ -15,6 +15,8 @@
   --space: 1.5rem;
 }
 
+html { background: var(--color-bg); }   /* mörk bakgrund även bakom webbläsarens fält och vid överscroll */
+
 body {
   background: var(--color-bg);
   color: var(--color-text);

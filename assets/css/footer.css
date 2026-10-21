@@ -53,7 +53,7 @@
 .page-footer__legal {
   width: min(100% - 2rem, 76rem);
   margin: 0 auto;
-  padding-block: 1.25rem 1.75rem;
+  padding-block: 1.25rem calc(1.75rem + env(safe-area-inset-bottom, 0px));   /* ovanför hemknappen/adressfältet */
   border-top: 1px solid rgba(239, 227, 211, .12);
   font-size: .85rem;
   opacity: .55;

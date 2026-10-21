@@ -38,10 +38,17 @@
   const ease  = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
   const lerp  = (a, b, t) => a + (b - a) * t;
 
+  // höjden på telefonens statusfält/hack (0 på dator), så att innehåll inte hamnar under det
+  const probe = document.createElement('div');
+  probe.style.cssText = 'position:fixed;top:0;left:0;width:0;height:env(safe-area-inset-top,0px);visibility:hidden;pointer-events:none';
+  document.body.append(probe);
+  let safeTop = 0;
+
   let W = 0, H = 0;
   function resize() {
     W = stage.clientWidth;
     H = stage.clientHeight;
+    safeTop = probe.offsetHeight;
     wine.setAttribute('viewBox', `0 0 ${W} ${H}`);
     // Menyn börjar strax under det röda bandet, oavsett skärmstorlek
     const waveH = bandEdge.getBoundingClientRect().height * 0.95;
@@ -133,8 +140,8 @@
   function progress() {
     // Startar redan när scenen kommit en bit upp på skärmen (före den låsts fast)
     const r = section.getBoundingClientRect();
-    const lead = window.innerHeight * LEAD;
-    return clamp((lead - r.top) / (r.height - window.innerHeight + lead));
+    const lead = H * LEAD;                           // H = scenens höjd = hela skärmen (ändras inte när webbläsarens fält fälls)
+    return clamp((lead - r.top) / (r.height - H + lead));
   }
 
   function frame(ms) {
@@ -154,11 +161,11 @@
     let lift = 0;
     if (narrow) {
       const want = Math.max(0, p - LIFT_START) *
-        (section.offsetHeight - window.innerHeight + window.innerHeight * LEAD);
+        (section.offsetHeight - H + H * LEAD);
       if (want > 0) {
         const br = bottle.getBoundingClientRect();
         const baseline = br.top - stage.getBoundingClientRect().top + lastLift;   // flaskans topp utan lyft
-        lift = Math.min(want, Math.max(0, baseline - 14));
+        lift = Math.min(want, Math.max(0, baseline - (14 + safeTop)));
       }
     }
     lastLift = lift;
@@ -229,8 +236,8 @@
   document.querySelectorAll('[data-scroll]').forEach(a => a.addEventListener('click', e => {
     e.preventDefault();
     const y = a.dataset.scroll === 'hours'
-      ? section.offsetTop + (section.offsetHeight - window.innerHeight) * 0.95
-      : document.getElementById('meny').getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.1;
+      ? section.offsetTop + (section.offsetHeight - H) * 0.95
+      : document.getElementById('meny').getBoundingClientRect().top + window.scrollY - H * 0.1;
     window.scrollTo({ top: y, behavior: reduceMotion ? 'auto' : 'smooth' });
   }));
 
