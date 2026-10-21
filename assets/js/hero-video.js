@@ -1,54 +1,43 @@
-// Bakgrundsfilm i toppen. Sidan ska ladda snabbt trots filmen, och filmen ska starta snabbt:
-//  - Stillbilden (poster) laddas först och visas direkt. Filmen börjar hämtas så fort stillbilden
-//    är klar (eller efter en kort stund om den dröjer), alltså inte först när allt annat laddats.
-//  - Filmen hoppas över vid "minska rörelse", databesparing och mycket långsamt nät.
-//  - Smala skärmar får en mindre fil (768 px) än breda (1280 px). Båda är gjorda för snabb start
-//    (ingen ljudspår, "fast start" så att uppspelning kan börja medan filen laddas).
-//  - Filmen pausas när toppen inte syns och när fliken är dold (sparar batteri och data).
+// Bakgrundsfilmen i toppen startar direkt (se <video> och det lilla skriptet i index.html).
+// Det här skriptet ser till att den håller igång:
+//  - tonar in filmen över stillbilden så fort den spelar
+//  - försöker igen om webbläsaren stoppade starten (t.ex. iPhone i strömsparläge släpper bara
+//    igenom uppspelning efter en tryckning, så första tryck/scroll på sidan startar den då)
+//  - pausar filmen när toppen inte syns eller fliken är dold (sparar batteri), och startar den igen
 (function () {
   const video = document.getElementById('heroVideo');
   if (!video) return;
 
-  const conn = navigator.connection || {};
-  const slow = conn.saveData || /(^|-)2g$/.test(conn.effectiveType || '');
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (slow || reduce) return;                       // stillbilden räcker
+  let visible = true;
 
-  const narrow = window.matchMedia('(max-width: 800px)').matches;
-  const src = video.dataset[narrow ? 'srcSmall' : 'srcLarge'];
-  if (!src) return;
+  const shown = () => { if (!video.paused && video.currentTime > 0) video.classList.add('is-playing'); };
+  ['playing', 'timeupdate', 'loadeddata'].forEach(e => video.addEventListener(e, shown));
+  shown();
 
-  let wanted = true;            // synlig + fliken aktiv
-  let started = false;
-  const update = () => {
-    if (!started) return;
-    if (wanted && !document.hidden) video.play().catch(() => {});
-    else video.pause();
+  const tryPlay = () => {
+    if (!visible || document.hidden || !video.paused) return;
+    const p = video.play();
+    if (p && p.catch) p.catch(() => {});
   };
 
-  function start() {
-    if (started) return;
-    started = true;
-    video.muted = true;                              // krävs för autoplay
-    video.preload = 'auto';
-    video.addEventListener('playing', () => video.classList.add('is-playing'), { once: true });
-    video.src = src;
-    video.load();
-    update();
-  }
+  // fler försök medan filmen laddar
+  ['loadedmetadata', 'canplay', 'canplaythrough', 'stalled', 'suspend'].forEach(e => video.addEventListener(e, tryPlay));
 
-  // Starta när stillbilden är klar, men senast efter 700 ms. (Inte requestIdleCallback:
-  // animationen på sidan håller huvudtråden upptagen, så "ledig tid" kan dröja flera sekunder.)
-  const poster = document.querySelector('.hero__photo');
-  if (poster && !poster.complete) {
-    poster.addEventListener('load', start, { once: true });
-    poster.addEventListener('error', start, { once: true });
-    setTimeout(start, 700);
-  } else {
-    start();
-  }
+  // om uppspelning kräver en tryckning (strömsparläge m.m.): starta vid första interaktionen
+  const gesture = () => {
+    tryPlay();
+    if (!video.paused) ['touchstart', 'touchend', 'pointerdown', 'click', 'keydown', 'wheel'].forEach(e => window.removeEventListener(e, gesture, true));
+  };
+  ['touchstart', 'touchend', 'pointerdown', 'click', 'keydown', 'wheel'].forEach(e => window.addEventListener(e, gesture, { capture: true, passive: true }));
 
-  new IntersectionObserver(([e]) => { wanted = e.isIntersecting; update(); }, { threshold: 0.05 })
-    .observe(document.querySelector('.hero') || video);
-  document.addEventListener('visibilitychange', update);
+  new IntersectionObserver(([e]) => {
+    visible = e.isIntersecting;
+    if (visible) tryPlay(); else video.pause();
+  }, { threshold: 0.05 }).observe(document.querySelector('.hero') || video);
+
+  document.addEventListener('visibilitychange', () => { if (document.hidden) video.pause(); else tryPlay(); });
+  window.addEventListener('pageshow', tryPlay);
+
+  // sista utväg: kontrollera efter en stund
+  setTimeout(tryPlay, 1500);
 })();

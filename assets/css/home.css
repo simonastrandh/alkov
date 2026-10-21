@@ -28,7 +28,6 @@
 /* Filmen tonar in över stillbilden när den börjat spela */
 .hero__video { opacity: 0; transition: opacity 1.2s ease; }
 .hero__video.is-playing { opacity: 1; }
-@media (prefers-reduced-motion: reduce) { .hero__video { display: none; } }
 .hero__content {
   position: relative;
   display: flex;

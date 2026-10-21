@@ -19,10 +19,19 @@
 
   <!-- Hero: foto + logga -->
   <header class="hero">
-    <!-- Stillbilden visas direkt; filmen läggs över och startas först när sidan laddats (se hero-video.js) -->
+    <!-- Stillbilden visas direkt. Filmen startar på en gång (autoplay, utan ljud) och tonar in över bilden. -->
     <img class="hero__photo" src="assets/images/hero-poster.jpg" alt="Gäster på Alkov" fetchpriority="high" width="1280" height="720">
-    <video class="hero__video" id="heroVideo" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"
-           data-src-large="assets/video/hero-1280.mp4" data-src-small="assets/video/hero-768.mp4"></video>
+    <video class="hero__video" id="heroVideo" autoplay muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
+    <script>
+      /* Väljer filmen direkt, innan resten av sidan ritats, så att den kan börja spela genast.
+         Smala skärmar får den mindre filmen. Muted måste sättas så här för att iPhone ska släppa igenom autoplay. */
+      (function () {
+        var v = document.getElementById('heroVideo');
+        v.defaultMuted = true; v.muted = true; v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
+        v.src = window.matchMedia('(max-width: 800px)').matches ? 'assets/video/hero-768.mp4' : 'assets/video/hero-1280.mp4';
+        var p = v.play(); if (p && p.catch) p.catch(function () {});
+      })();
+    </script>
     <div class="hero__content">
       <img class="hero__logo" src="bilder/logo.png" alt="Alkov">
       <div class="hero__cta">
