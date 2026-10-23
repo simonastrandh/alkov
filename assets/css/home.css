@@ -38,6 +38,7 @@
 }
 .hero__logo {
   width: min(560px, 72vw);
+  height: auto;
 }
 .hero__cta {
   display: flex;
@@ -224,6 +225,25 @@
 }
 .band-edge__line--thin { stroke-width: 2; stroke-dasharray: 90 34 160 22; }
 
+.hours__cta {
+  display: inline-block;
+  margin-top: min(2.6rem, 4.4vh);
+  padding: .85rem 2.1rem;
+  border: 2px solid var(--color-cream);
+  background: var(--color-cream);
+  color: var(--color-wine);
+  font-size: .9rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  pointer-events: auto;            /* knappen går att klicka även om resten av öppettiderna är en dekor */
+  transition: background-color .2s ease, color .2s ease;
+}
+.hours__cta:hover,
+.hours__cta:focus-visible { background: transparent; color: var(--color-cream); }
+.hours__cta:focus-visible { outline: 2px solid var(--color-cream); outline-offset: 4px; }
+
 /* Teckningar vid öppettiderna */
 .hours__decor {
   position: absolute;
@@ -270,6 +290,102 @@
 .menu__card img { width: 100%; height: auto; }
 .menu__card:hover,
 .menu__card:focus-visible { transform: translateY(-4px) rotate(-1deg); }
+/* Smal skärm: samma lyft som vid hover när kortet ligger mitt på skärmen (klassen sätts av menu-card.js) */
+@media (max-width: 800px) {
+  .menu__card.is-centered { transform: translateY(-4px) rotate(-1deg); }
+}
+
+/* Välkomna: bilder som fotografier utlagda på bordet, man sveper i sidled */
+.gallery {
+  padding-block: 0 clamp(4rem, 10vw, 7rem);
+  background: var(--color-dark);
+  text-align: center;
+}
+.gallery h2 {
+  /* mindre och lugnare än "Meny": en kursiv hälsning mellan två tunna linjer */
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  width: min(100% - 2.5rem, 28rem);
+  margin: 0 auto clamp(.8rem, 2vw, 1.4rem);
+  font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: .04em;
+  color: var(--color-cream);
+  opacity: .9;
+}
+.gallery h2::before, .gallery h2::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+  opacity: .35;
+}
+.gallery__viewport { position: relative; }
+.gallery__track {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.2rem, 3vw, 2.2rem);
+  padding: 1.6rem max(1.25rem, calc((100vw - 76rem) / 2));
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  overscroll-behavior-x: contain;
+  scroll-padding-inline: max(1.25rem, calc((100vw - 76rem) / 2));
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  /* kanterna tonar ut, så man ser att det finns mer att svepa till */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+}
+.gallery__track::-webkit-scrollbar { display: none; }
+.gallery__track:focus-visible { outline: 2px solid var(--color-cream); outline-offset: -4px; }
+
+.print {
+  flex: none;
+  margin: 0;
+  padding: .55rem;                       /* vit kant som på ett papperskopierat foto, som menykortet */
+  background: var(--color-cream);
+  box-shadow: 0 .9rem 1.8rem rgba(0, 0, 0, .45), 0 .15rem .4rem rgba(0, 0, 0, .4);
+  scroll-snap-align: center;
+  transform: rotate(var(--tilt, -1deg));
+  transition: transform .3s ease;
+}
+.print:nth-child(even) { --tilt: 1.1deg; }
+.print:nth-child(3n) { --tilt: -.5deg; }
+.print img {
+  display: block;
+  height: clamp(300px, 62vw, 460px);     /* samma höjd på alla, bredden följer bildens format */
+  width: auto;
+  max-width: none;
+  filter: brightness(.9);
+}
+.print:hover { transform: rotate(0deg) translateY(-6px); }
+
+.gallery__arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  transform: translateY(-50%);
+  border: 1.5px solid var(--color-cream);
+  border-radius: 50%;
+  background: rgba(29, 28, 30, .78);
+  color: var(--color-cream);
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease;
+}
+.gallery__arrow[hidden] { display: none; }
+.gallery__arrow--prev { left: max(.75rem, calc((100vw - 76rem) / 2 - 1.5rem)); }
+.gallery__arrow--next { right: max(.75rem, calc((100vw - 76rem) / 2 - 1.5rem)); }
+.gallery__arrow svg { width: 1.3rem; height: 1.3rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.gallery__arrow:hover, .gallery__arrow:focus-visible { background: var(--color-cream); color: var(--color-dark); }
+.gallery__arrow:focus-visible { outline: 2px solid var(--color-cream); outline-offset: 3px; }
+/* pilarna behövs bara där man har mus; på telefon sveper man */
+@media (hover: none) { .gallery__arrow { display: none; } }
 
 .btn {
   display: inline-block;
@@ -286,8 +402,8 @@
 .menu a:focus-visible { outline: 3px solid var(--color-cream); outline-offset: 4px; }
 
 @media (prefers-reduced-motion: reduce) {
-  .menu__card, .btn { transition: none; }
-  .menu__card:hover, .menu__card:focus-visible { transform: none; }
+  .menu__card, .btn, .print, .gallery__arrow { transition: none; }
+  .menu__card:hover, .menu__card:focus-visible, .menu__card.is-centered { transform: none; }
 }
 
 

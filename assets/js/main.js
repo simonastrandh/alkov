@@ -232,14 +232,40 @@
     requestAnimationFrame(frame);
   }
 
-  // Knapparna i toppen: mjuk scroll till menyn respektive öppettiderna
+  // Knapparna i toppen: glid mjukt ner till menyn respektive öppettiderna.
+  // Egen animation i stället för webbläsarens "smooth", som på många enheter går så fort att det ser ut som ett hopp.
+  // Längre sträcka ger längre tid, men aldrig kortare än 1 s eller längre än 2,8 s.
+  let glideId = 0;
+  function glideTo(targetY) {
+    const startY = window.scrollY;
+    const dist = targetY - startY;
+    if (Math.abs(dist) < 2) return;
+    if (reduceMotion) { window.scrollTo(0, targetY); return; }
+    const ms = clamp(Math.abs(dist) * 0.9, 1000, 2800);
+    const id = ++glideId;
+    const t0 = performance.now();
+    const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;   // mjuk start och stopp
+    const stop = () => { glideId++; };                                            // användaren tar över
+    ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(e => window.addEventListener(e, stop, { once: true, passive: true }));
+    (function step(now) {
+      if (id !== glideId) return;
+      const p = clamp((now - t0) / ms);
+      window.scrollTo(0, startY + dist * ease(p));
+      if (p < 1) requestAnimationFrame(step);
+    })(t0);
+  }
   document.querySelectorAll('[data-scroll]').forEach(a => a.addEventListener('click', e => {
     e.preventDefault();
-    const y = a.dataset.scroll === 'hours'
-      ? section.offsetTop + (section.offsetHeight - H) * 0.95
-      : document.getElementById('meny').getBoundingClientRect().top + window.scrollY - H * 0.1;
-    window.scrollTo({ top: y, behavior: reduceMotion ? 'auto' : 'smooth' });
+    glideTo(a.dataset.scroll === 'footer' ? footerY() : a.dataset.scroll === 'hours' ? hoursY() : menuY());
   }));
+  const hoursY = () => section.offsetTop + (section.offsetHeight - H) - 2;      // där öppettiderna har landat på plats
+  const menuY = () => document.getElementById('meny').getBoundingClientRect().top + window.scrollY - H * 0.1;
+  const footerY = () => {
+    const f = document.querySelector('.page-footer');
+    return f ? f.getBoundingClientRect().top + window.scrollY : document.documentElement.scrollHeight;
+  };
+  // Länk från en undersida (index.html#oppettider): glid ner till öppettiderna när sidan är klar
+  if (location.hash === '#oppettider') window.addEventListener('load', () => setTimeout(() => glideTo(hoursY()), 400));
 
   resize();
   window.addEventListener('resize', resize);

@@ -14,7 +14,7 @@
         <p>Tack för att ni besöker oss!</p>
       </div>
 
-      <div class="page-footer__col">
+      <div class="page-footer__col" id="hitta-hit">
         <h2>Hitta hit</h2>
         <address>
           <a href="https://www.google.com/maps/search/?api=1&query=J%C3%A4rntorget+6+413+04+G%C3%B6teborg" target="_blank" rel="noopener">Järntorget 6<br>413 04, Göteborg</a>
@@ -22,7 +22,7 @@
         </address>
       </div>
 
-      <div class="page-footer__col">
+      <div class="page-footer__col" id="kontakt">
         <h2>Kontakt</h2>
         <ul>
           <li><a href="tel:+46722150916">+46 72-215 09 16</a></li>

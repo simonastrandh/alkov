@@ -1,27 +1,43 @@
 // Alkovs meny – ändra rätter och priser här.
-// Varje grupp visas som ett eget block med luft emellan.
+// Varje grupp har en rubrik och en lista rätter: [namn, pris] eller [namn, pris, beskrivning].
 window.ALKOV_MENU = {
   title: 'Meny',
   illustration: 'assets/images/gubbe-v2.svg',
   groups: [
-    [
-      ['Ostron med citron & migonette', '45 :- /st'],
-      ['Nocellara Oliver', '55 :-'],
-      ['Marconamandlar', '65 :-'],
-      ['Chips med ramslöksdipp', '65 :-'],
-      ['Pickles med smetana & honung', '85 :-'],
-    ],
-    [
-      ['Hummus, brynt smör, hasselnötter & gott bröd', '105 :-'],
-      ['Romesco, confiterad chili & gott bröd', '115 :-'],
-      ['Pan con tomate med sardeller', '115 :-'],
-      ['Gravad lax med pepparrotskräm, picklad gurka & dillolja', '125 :-'],
-      ['Chark & ost, cornichons, surdegs bröd', '165 :-'],
-      ['Råbiff signatur, pepparrot, ramslök, gruyére, picklad charlottenlök & surdegsbröd', '145/235 :-'],
-    ],
-    [
-      ['Jordgubbstiramisu', '95 :-'],
-      ['Veckans glass', '55 :-'],
-    ],
+    {
+      title: 'Smått',
+      items: [
+        ['Ostron', '45 :- /st', 'citron & migonette'],
+        ['Nocellara Oliver', '55 :-'],
+        ['Marconamandlar', '65 :-'],
+        ['Pickles', '75 :-', 'smetana & honung'],
+        ['Brioche', '75 :-', 'vispat olivsmör'],
+        ['Chips med dipp', '85 :-'],
+        ['Boqueros', '125 :-', 'citron, surdegsbröd & gremolata'],
+      ],
+    },
+    {
+      title: 'Ost & chark',
+      items: [
+        ['Månadens ost', '“dagspris”', 'marmelad & valnöt'],
+        ['Gruyère', '125 :-', 'brynt smör, friterad kapris'],
+        ['Charktallrik', '165 :-', 'kallskuret, ost, cornichons. Serveras med surdegsbröd'],
+      ],
+    },
+    {
+      title: 'Att äta',
+      items: [
+        ['Råbiff', '145 / 235 :-', 'nötinnanlår, persiljakräm, grovsenap, cornichons, kapris, friterad grönkål, comté'],
+        ['Gräddstekta kantareller', '185 :-', 'på brioche med tångkaviar'],
+        ['Fläskmacka', '185 :-', 'senapskräm, långkokt fläskkarré, gruyere, gremolata på surdegsbröd'],
+      ],
+    },
+    {
+      title: 'Sött',
+      items: [
+        ['Clementine Pannacotta', '95 :-'],
+        ['Affogato', '75 :-'],
+      ],
+    },
   ],
 };

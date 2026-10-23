@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Boka bord – Alkov</title>
+  <meta name="description" content="Boka bord på Alkov.">
+  <link rel="icon" href="../assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/reset.css?v=1792758655">
+  <link rel="stylesheet" href="../assets/css/style.css?v=1792758655">
+  <link rel="stylesheet" href="../assets/css/booking.css?v=1792758655">
+  <link rel="stylesheet" href="../assets/css/nav.css?v=1792758655">
+  <link rel="stylesheet" href="../assets/css/footer.css?v=1792758655">
+</head>
+<body class="booking-page">
+  <script src="../assets/js/nav.js?v=1792758655" data-base="../"></script>
+
+  <main class="booking">
+    <h1 class="sr-only">Boka bord på Alkov</h1>
+    <!-- UI för bokningen. Stegen går att bläddra mellan; skicka-in-funktionen kopplas på senare (se booking.js). -->
+    <form class="booking-card" id="booking" novalidate>
+
+      <!-- Stegindikator -->
+      <ol class="stepper" id="stepper" aria-label="Bokningens steg">
+        <li>
+          <button type="button" class="stepper__item is-active" data-goto="1" aria-current="step">
+            <span class="stepper__num">1</span><span class="stepper__label">Sällskap &amp; Datum</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="stepper__item" data-goto="2">
+            <span class="stepper__num">2</span><span class="stepper__label">Tid</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="stepper__item" data-goto="3">
+            <span class="stepper__num">3</span><span class="stepper__label">Uppgifter</span>
+          </button>
+        </li>
+      </ol>
+
+      <!-- Steg 1: sällskap och datum -->
+      <section class="step" data-step="1" aria-labelledby="h-guests">
+        <h2 class="step__title" id="h-guests">Hur många är ni?</h2>
+        <div class="choices" role="radiogroup" aria-labelledby="h-guests" id="guests">
+          <button type="button" class="choice" role="radio" aria-checked="false" data-value="1">1</button>
+          <button type="button" class="choice is-selected" role="radio" aria-checked="true" data-value="2">2</button>
+          <button type="button" class="choice" role="radio" aria-checked="false" data-value="3">3</button>
+          <button type="button" class="choice" role="radio" aria-checked="false" data-value="4">4</button>
+          <button type="button" class="choice" role="radio" aria-checked="false" data-value="5">5</button>
+          <button type="button" class="choice" role="radio" aria-checked="false" data-value="6+">6+</button>
+        </div>
+        <p class="note"><span class="note__mark">*</span>Är ni sex eller fler kan det vara svårt att ordna bord med kort varsel. Skicka in din förfrågan ändå, så återkommer vi så snart vi kan. Vi gör allt vi kan för att få plats åt er.</p>
+
+        <h2 class="step__title step__title--date" id="h-date">Välj datum</h2>
+        <label class="datefield" for="date">
+          <span class="datefield__text" id="dateText">24/10-2026</span>
+          <input type="date" id="date" name="datum" aria-labelledby="h-date">
+        </label>
+        <p class="datehint" id="dateHint" aria-live="polite"></p>
+
+        <div class="step__foot step__foot--hours">
+          <p class="note"><span class="note__mark">*</span>Vi har öppet tis–lör 16:00–23:00 och sön 17:00–22:00. Måndagar är vi stängda.</p>
+          <button type="button" class="btn btn--primary" id="toTimes" data-goto="2">Välj tid <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></button>
+        </div>
+      </section>
+
+      <!-- Steg 2: tid -->
+      <section class="step" data-step="2" aria-labelledby="h-times" hidden>
+        <p class="note note--lead"><span class="note__mark">*</span><span><strong>Obs!</strong> Vi visar alla ordinarie tider, även om vi skulle vara fullbokade. Vi går igenom varje bokning för hand, och den är först klar när du har fått ett bekräftelsemejl från oss.</span></p>
+
+        <div class="step__head">
+          <h2 class="step__title" id="h-times">Välj tid</h2>
+          <p class="sitting"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Bordet är ert i 2 timmar</p>
+        </div>
+        <div class="times" role="radiogroup" aria-labelledby="h-times" id="times"></div>
+        <p class="note note--alert" id="noTimes" role="alert" hidden></p>
+
+        <div class="step__foot">
+          <button type="button" class="btn btn--ghost" data-goto="1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H5M11 6l-6 6 6 6"/></svg> Tillbaka</button>
+          <button type="button" class="btn btn--primary" data-goto="3">Nästa <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></button>
+        </div>
+      </section>
+
+      <!-- Steg 3: uppgifter -->
+      <section class="step" data-step="3" aria-label="Uppgifter" hidden>
+        <dl class="summary">
+          <div><dt>Sällskap</dt><dd id="sumGuests">2 personer</dd></div>
+          <div><dt>Datum</dt><dd id="sumDate">Fre · 24 okt</dd></div>
+          <div><dt>Tid</dt><dd id="sumTime">–</dd></div>
+        </dl>
+
+        <div class="fields">
+          <div class="field">
+            <label for="fornamn">Förnamn *</label>
+            <input type="text" id="fornamn" name="fornamn" aria-describedby="err-fornamn" placeholder="T.ex. Johan" autocomplete="given-name" required>
+            <p class="field__error" id="err-fornamn" hidden>Fyll i ditt förnamn.</p>
+          </div>
+          <div class="field">
+            <label for="efternamn">Efternamn *</label>
+            <input type="text" id="efternamn" name="efternamn" aria-describedby="err-efternamn" placeholder="T.ex. Svensson" autocomplete="family-name" required>
+            <p class="field__error" id="err-efternamn" hidden>Fyll i ditt efternamn.</p>
+          </div>
+          <div class="field">
+            <label for="epost">E-postadress *</label>
+            <input type="email" id="epost" name="epost" aria-describedby="err-epost" placeholder="namn@epost.se" autocomplete="email" required>
+            <p class="field__error" id="err-epost" hidden>Fyll i en giltig e-postadress, så att vi kan skicka bekräftelsen.</p>
+          </div>
+          <div class="field">
+            <label for="telefon">Telefon (frivilligt)</label>
+            <input type="tel" id="telefon" name="telefon" placeholder="070 - 123 45 67" autocomplete="tel">
+          </div>
+          <div class="field field--wide">
+            <label for="meddelande">Allergier eller önskemål (frivilligt)</label>
+            <textarea id="meddelande" name="meddelande" rows="5" placeholder="Berätta om allergier, frågor eller andra önskemål …"></textarea>
+          </div>
+        </div>
+
+        <p class="note note--required"><span class="note__mark">*</span>Fält med stjärna måste fyllas i.</p>
+        <p class="note note--privacy">Vi använder dina uppgifter bara för att hantera din bokning och kontakta dig om den. Bokningen skickas till restaurangen via e-posttjänsten Web3Forms.</p>
+
+        <!-- spamskydd: ett fält som människor aldrig ser, men som robotar fyller i -->
+        <input type="checkbox" name="botcheck" id="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" class="honeypot">
+
+        <p class="note note--alert" id="submitError" role="alert" hidden></p>
+
+        <div class="step__foot">
+          <button type="button" class="btn btn--ghost" data-goto="2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H5M11 6l-6 6 6 6"/></svg> Tillbaka</button>
+          <button type="submit" class="btn btn--primary" id="submitBtn"><span id="submitLabel">Slutför bokning</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
+        </div>
+      </section>
+
+      <!-- Bekräftelse: visas när bokningen skickats (se booking.js) -->
+      <section class="confirm" id="confirm" aria-labelledby="h-confirm" hidden>
+        <div class="confirm__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+        <h2 class="confirm__title" id="h-confirm" tabindex="-1">Tack för din bokning, <span id="cName"></span>!</h2>
+        <p class="confirm__lead">Vi har tagit emot din förfrågan och återkommer med ett bekräftelsemejl till <strong id="cEmail"></strong>.</p>
+        <p class="note note--alert note--info"><span><strong>Bokningen är inte klar än.</strong> Vi går igenom alla bokningar för hand och skickar en bekräftelse så fort vi har kollat. Det kan ta allt från någon timme till nästa dag. Bordet är först ert när du har fått bekräftelsen från oss. Hittar du den inte, titta i skräpposten.</span></p>
+
+        <dl class="confirm__details">
+          <div><dt>Sällskap</dt><dd id="cGuests"></dd></div>
+          <div><dt>Datum</dt><dd id="cDate"></dd></div>
+          <div><dt>Tid</dt><dd id="cTime"></dd></div>
+          <div><dt>Namn</dt><dd id="cFullName"></dd></div>
+          <div><dt>E-post</dt><dd id="cEmail2"></dd></div>
+          <div id="cPhoneRow" hidden><dt>Telefon</dt><dd id="cPhone"></dd></div>
+          <div id="cMsgRow" hidden><dt>Allergier och önskemål</dt><dd id="cMsg"></dd></div>
+        </dl>
+
+        <p class="confirm__help">Vill du ändra eller avboka? Ring oss på <a href="tel:+46722150916">+46 72-215 09 16</a> eller mejla <a href="mailto:alkov.bar@gmail.com">alkov.bar@gmail.com</a>.</p>
+
+        <div class="step__foot">
+          <a class="btn btn--ghost" href="../index.html">Till startsidan</a>
+          <button type="button" class="btn btn--primary" id="again">Boka ett bord till</button>
+        </div>
+      </section>
+    </form>
+  </main>
+
+  <script src="../assets/js/booking.js?v=1792758655"></script>
+  <script src="../assets/js/footer.js?v=1792758655" data-base="../"></script>
+</body>
+</html>

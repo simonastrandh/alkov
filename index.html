@@ -15,13 +15,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/reset.css?v=202610212154">
-  <link rel="stylesheet" href="assets/css/style.css?v=202610212154">
-  <link rel="stylesheet" href="assets/css/home.css?v=202610212154">
-  <link rel="stylesheet" href="assets/css/menu-v2.css?v=202610212154">
-  <link rel="stylesheet" href="assets/css/footer.css?v=202610212154">
+  <link rel="stylesheet" href="assets/css/reset.css?v=1792758655">
+  <link rel="stylesheet" href="assets/css/style.css?v=1792758655">
+  <link rel="stylesheet" href="assets/css/home.css?v=1792758655">
+  <link rel="stylesheet" href="assets/css/nav.css?v=1792758655">
+  <link rel="stylesheet" href="assets/css/footer.css?v=1792758655">
 </head>
 <body class="home">
+  <script src="assets/js/nav.js?v=1792758655"></script>
 
   <!-- Hero: foto + logga -->
   <header class="hero">
@@ -39,9 +40,9 @@
       })();
     </script>
     <div class="hero__content">
-      <img class="hero__logo" src="bilder/logo.png" alt="Alkov">
+      <img class="hero__logo" src="assets/images/alkov-logo.svg" alt="Alkov" width="2972" height="815">
       <div class="hero__cta">
-        <a class="hero__btn hero__btn--outline" href="#meny" data-scroll="menu">Upptäck menyn</a>
+        <a class="hero__btn hero__btn--outline" href="pages/meny.html">Upptäck menyn</a>
         <a class="hero__btn hero__btn--filled" href="#pour" data-scroll="hours">Öppettider</a>
       </div>
     </div>
@@ -124,6 +125,8 @@
           <div><dt>Söndag</dt><dd>17:00 – 22:00</dd></div>
         </dl>
 
+        <a class="hours__cta" href="pages/boka-bord.html">Boka bord</a>
+
         <!-- Teckningar bredvid öppettiderna: espresso martini till vänster, törstig gubbe till höger -->
         <div class="hours__decor" aria-hidden="true">
           <img class="hours__glass" src="assets/images/espresso-martini.png" alt="" width="966" height="1283" loading="lazy" decoding="async">
@@ -137,19 +140,38 @@
   <!-- Meny (grå bakgrund) -->
   <section class="menu" id="meny" aria-labelledby="menu-title">
     <h2 id="menu-title">Meny</h2>
-    <a class="menu__card" href="pages/meny.html" data-menu-link aria-label="Öppna menyn">
+    <a class="menu__card" href="pages/meny.html" aria-label="Öppna menyn">
       <img src="bilder/meny_alkov.png" alt="Alkovs meny med en ritad ostron" width="343" height="588" loading="lazy" decoding="async">
     </a>
-    <a class="btn" href="pages/meny.html" data-menu-link>Se Meny</a>
+    <a class="btn" href="pages/meny.html">Se Meny</a>
+  </section>
+
+  <!-- Välkomna: bilder att svepa genom. Lägg till eller byt bild genom att kopiera en <figure>-rad.
+       Bilderna går runt i en oändlig slinga (kopior skapas av gallery.js). Bilderna ligger i assets/images/galleri/ (stående bilder funkar också, ange rätt width/height). -->
+  <section class="gallery" aria-labelledby="gallery-title">
+    <h2 id="gallery-title">Välkomna</h2>
+    <div class="gallery__viewport">
+      <button type="button" class="gallery__arrow gallery__arrow--prev" aria-label="Föregående bilder">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="gallery__track" id="galleryTrack" tabindex="0" role="region" aria-label="Bilder från Alkov, svep eller använd piltangenterna">
+        <figure class="print"><img src="assets/images/galleri/karusell-1.jpg" alt="Gäster och drinkar på Alkov" width="742" height="1000" loading="lazy" decoding="async"></figure>
+        <figure class="print"><img src="assets/images/galleri/karusell-2.jpg" alt="Stämning på Alkov" width="540" height="800" loading="lazy" decoding="async"></figure>
+        <figure class="print"><img src="assets/images/galleri/karusell-3.jpg" alt="Kväll på Alkov" width="540" height="800" loading="lazy" decoding="async"></figure>
+        <figure class="print"><img src="assets/images/galleri/karusell-4.jpg" alt="Detaljer från Alkov" width="540" height="800" loading="lazy" decoding="async"></figure>
+      </div>
+      <button type="button" class="gallery__arrow gallery__arrow--next" aria-label="Nästa bilder">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
   </section>
 
 
-  <script src="assets/js/hero-video.js?v=202610212154"></script>
-  <script src="assets/js/main.js?v=202610212154"></script>
-  <script src="assets/js/menu-data-v2.js?v=202610212154"></script>
-  <script src="assets/js/menu-v2.js?v=202610212154"></script>
-  <script src="assets/js/menu-flip-v2.js?v=202610212154"></script>
-  <script src="assets/js/footer.js?v=202610212154"></script>
+  <script src="assets/js/hero-video.js?v=1792758655"></script>
+  <script src="assets/js/main.js?v=1792758655"></script>
+  <script src="assets/js/menu-card.js?v=1792758655"></script>
+  <script src="assets/js/gallery.js?v=1792758655"></script>
+  <script src="assets/js/footer.js?v=1792758655"></script>
   <script>
     /* Felsökning: öppna sidan med ?debug sist i adressen för att visa en liten mätruta */
     if (/[?&]debug/.test(location.search)) {

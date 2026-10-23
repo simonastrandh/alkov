@@ -14,12 +14,15 @@ window.AlkovMenu = (function () {
       `<h1 class="paper__title">${esc(menu.title)}</h1>` +
       '<div class="paper__groups">' +
       menu.groups.map(group =>
+        '<section class="paper__section">' +
+        `<h2 class="paper__heading">${esc(group.title)}</h2>` +
         '<ul class="paper__group">' +
-        group.map(([name, price]) =>
-          `<li class="paper__item"><span class="paper__name">${esc(name)}</span>` +
-          `<span class="paper__price">${esc(price)}</span></li>`
+        group.items.map(([name, price, desc]) =>
+          `<li class="paper__item"><span class="paper__name">${esc(name)}` +
+          (desc ? `<small class="paper__desc">${esc(desc)}</small>` : '') +
+          `</span><span class="paper__price">${esc(price)}</span></li>`
         ).join('') +
-        '</ul>'
+        '</ul></section>'
       ).join('') +
       '</div>' +
       `<img class="paper__art" src="${esc(base + menu.illustration)}" alt="" width="486" height="418">`;

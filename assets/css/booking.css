@@ -1,0 +1,395 @@
+/* ---------- Boka bord ---------- */
+
+.booking-page {
+  background: var(--color-dark);
+  color: var(--color-cream);
+  font-family: var(--font-serif);
+}
+/* undersidornas gemensamma regel (footer.css) gör kroppen till en flex-kolumn */
+
+.booking {
+  --card-bg: #252428;
+  --line: rgba(239, 227, 211, .13);
+  --field-line: #3d3c42;
+  --muted: rgba(239, 227, 211, .68);
+  --pad: clamp(1.25rem, 4.6vw, 3.6rem);
+
+  width: min(100% - 2rem, 62rem);
+  margin-inline: auto;
+  padding-block: calc(clamp(3.5rem, 13vh, 11rem) + env(safe-area-inset-top, 0px)) clamp(3.5rem, 11vh, 8rem);
+}
+
+/* Kortet */
+.booking-card {
+  background: var(--card-bg);
+  border-radius: 1.1rem;
+  border-top: 3px solid var(--color-wine);
+  padding: clamp(1.4rem, 3.6vw, 2.8rem) var(--pad) clamp(1.6rem, 3.4vw, 2.6rem);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .28);
+}
+
+/* Stegindikator */
+.stepper {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 0 clamp(1.6rem, 3.5vw, 2.8rem);
+  padding: 0 0 0;
+  list-style: none;
+  border-bottom: 1px solid var(--line);
+}
+.stepper li { margin-bottom: -1px; }
+.stepper__item {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  padding: 0 .1rem .6rem;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: var(--color-cream);
+  font: inherit;
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  font-weight: 300;
+  cursor: pointer;
+}
+.stepper__num {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  background: #3b3a3f;
+  font-size: .8rem;
+  font-weight: 400;
+}
+.stepper__item.is-active { border-bottom-color: var(--color-bottle); }
+.stepper__item.is-active .stepper__num { background: var(--color-wine); }
+.stepper__item:focus-visible { outline: 2px solid var(--color-cream); outline-offset: 4px; border-radius: 4px; }
+
+/* Stegens innehåll */
+.step[hidden] { display: none; }
+.step__title {
+  margin: 0 0 1.1rem;
+  font-size: clamp(1.1rem, 1.7vw, 1.3rem);
+  font-weight: 400;
+  line-height: 1.2;
+}
+.step__title--date { margin-top: clamp(1.8rem, 4vw, 2.6rem); }
+.step__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: .4rem 4.5rem;
+  margin-top: clamp(1.8rem, 4vw, 2.6rem);
+  margin-bottom: 1.1rem;
+}
+.step__head .step__title { margin: 0; }
+.sitting {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  margin: 0;
+  font-size: clamp(.9rem, 1.2vw, 1rem);
+  font-weight: 400;
+}
+.sitting svg { width: 1.05rem; height: 1.05rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Små anteckningar */
+.note {
+  display: flex;
+  gap: .4rem;
+  max-width: 44rem;
+  margin: .9rem 0 0;
+  color: var(--muted);
+  font-size: clamp(.85rem, 1.1vw, .92rem);
+  font-weight: 300;
+  line-height: 1.55;
+}
+.note__mark { flex: none; opacity: .9; }
+.note strong { color: var(--color-cream); font-weight: 600; }
+.note--lead { margin: 0; max-width: 40rem; }
+
+/* Antal gäster / tider */
+.choices,
+.times {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+}
+.choice,
+.time {
+  display: grid;
+  place-items: center;
+  border: 1.5px solid var(--field-line);
+  border-radius: .45rem;
+  background: transparent;
+  color: var(--color-cream);
+  font: inherit;
+  font-weight: 400;
+  cursor: pointer;
+  transition: background-color .15s ease, border-color .15s ease;
+}
+.choice { width: 3rem; height: 3rem; font-size: 1.1rem; }
+.time   { width: 4.6rem; height: 3rem; font-size: 1.05rem; }
+.choice:hover, .time:hover { border-color: rgba(239, 227, 211, .4); }
+.choice.is-selected,
+.time.is-selected { background: var(--color-wine); border-color: var(--color-wine); }
+.choice:focus-visible, .time:focus-visible { outline: 2px solid var(--color-cream); outline-offset: 3px; }
+
+/* Datumfält: ser ut som en ruta med datumet, den riktiga datumväljaren ligger osynlig ovanpå */
+.datefield {
+  position: relative;
+  display: inline-block;
+  min-width: 8.4rem;
+  padding: .65rem .95rem;
+  border: 1.5px solid var(--field-line);
+  border-radius: .45rem;
+  font-size: 1.1rem;
+  font-weight: 300;
+  cursor: pointer;
+  transition: border-color .15s ease;
+}
+.datefield:hover { border-color: rgba(239, 227, 211, .4); }
+.datefield:focus-within { outline: 2px solid var(--color-cream); outline-offset: 3px; }
+.datefield input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.datefield input::-webkit-calendar-picker-indicator {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+/* Fot med knappar */
+.step__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: clamp(1.8rem, 5vw, 3.4rem);
+}
+.step__foot--hours { margin-top: .6rem; align-items: center; }
+.step__foot--hours .note { margin: 0; }
+
+/* Knappar */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  min-width: 9.5rem;
+  padding: .72rem 1.3rem;
+  border: 0;
+  border-radius: 0;
+  color: var(--color-cream);
+  font: inherit;
+  font-size: .95rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition: background-color .15s ease, transform .15s ease;
+}
+.btn svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.btn--primary { background: var(--color-wine); }
+.btn--primary:hover { background: #6c2434; }
+.btn--ghost { background: #3b3a3f; }
+.btn--ghost:hover { background: #47464c; }
+.btn:focus-visible { outline: 2px solid var(--color-cream); outline-offset: 3px; }
+.btn:active { transform: translateY(1px); }
+
+/* Steg 3: sammanfattning och formulär */
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 3rem;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 0 clamp(1.6rem, 4vw, 2.6rem);
+  padding: 1.1rem 1.4rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: .6rem;
+}
+.summary dt { font-weight: 600; font-size: .95rem; }
+.summary dd { margin: .3rem 0 0; font-weight: 300; font-size: 1rem; }
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.3rem 1.8rem;
+}
+.field label {
+  display: block;
+  margin-bottom: .5rem;
+  font-size: .92rem;
+  font-weight: 400;
+}
+.field input,
+.field textarea {
+  display: block;
+  width: 100%;
+  padding: .75rem .95rem;
+  border: 1.5px solid var(--field-line);
+  border-radius: .45rem;
+  background: transparent;
+  color: var(--color-cream);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 300;
+  transition: border-color .15s ease;
+}
+.field textarea { min-height: 7.5rem; resize: vertical; line-height: 1.5; }
+.field input::placeholder,
+.field textarea::placeholder { color: rgba(239, 227, 211, .5); }
+.field input:hover, .field textarea:hover { border-color: rgba(239, 227, 211, .4); }
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--color-cream); }
+.field--wide { grid-column: 1 / -1; }
+.note--required { margin-top: 1.1rem; }
+
+/* Mobil */
+@media (max-width: 700px) {
+  .booking-card { border-radius: .9rem; }
+  /* bara den aktiva stegetiketten syns, så att tre steg ryms */
+  .stepper__item:not(.is-active) .stepper__label { display: none; }
+  .stepper { justify-content: flex-start; gap: .6rem; }
+  .stepper__item { gap: .6rem; }
+  .fields { grid-template-columns: 1fr; }
+  .summary { gap: 1rem 2rem; }
+  .step__foot { flex-direction: row; }
+  .step__foot--hours { flex-direction: column; align-items: stretch; }
+  .step__foot--hours .btn { align-self: flex-end; }
+  .btn { min-width: 0; flex: 1 1 auto; }
+  .time { width: calc((100% - 3 * .75rem) / 4); min-width: 4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .choice, .time, .btn, .datefield, .field input, .field textarea { transition: none; }
+}
+
+/* Syns bara för skärmläsare */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Öppettider: info om vald dag och varningar */
+.datehint {
+  margin: .75rem 0 0;
+  color: var(--muted);
+  font-size: clamp(.85rem, 1.1vw, .92rem);
+  font-weight: 300;
+  line-height: 1.5;
+}
+.datehint.is-closed,
+.note--alert {
+  color: var(--color-cream);
+  border-left: 3px solid var(--color-bottle);
+  padding: .55rem .9rem;
+  background: rgba(125, 34, 56, .16);
+  border-radius: 0 .4rem .4rem 0;
+}
+.note--alert { max-width: none; margin: 0 0 1.2rem; }
+.note--alert[hidden] { display: none; }
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: .4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.times[hidden] { display: none; }
+
+.stepper[hidden] { display: none; }
+
+/* Felmeddelanden i formuläret */
+.field__error {
+  margin: .45rem 0 0;
+  color: #eaa5b3;
+  font-size: .86rem;
+  font-weight: 400;
+}
+.field__error[hidden] { display: none; }
+.field.has-error input { border-color: var(--color-bottle); }
+
+/* Bekräftelsen */
+.confirm[hidden] { display: none; }
+.confirm__icon {
+  display: grid;
+  place-items: center;
+  width: 3.4rem;
+  height: 3.4rem;
+  margin: .4rem 0 1.2rem;
+  border-radius: 50%;
+  background: var(--color-wine);
+}
+.confirm__icon svg {
+  width: 1.7rem;
+  height: 1.7rem;
+  fill: none;
+  stroke: var(--color-cream);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.confirm__title {
+  margin: 0 0 .6rem;
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  font-weight: 400;
+  line-height: 1.2;
+}
+.confirm__title:focus { outline: none; }
+.confirm__lead { margin: 0; font-size: 1.05rem; font-weight: 300; line-height: 1.55; }
+.confirm__lead strong { font-weight: 600; overflow-wrap: anywhere; }
+.note--info { margin: 1.3rem 0 0; }
+.confirm__details {
+  margin: 1.8rem 0 0;
+  border: 1px solid var(--line);
+  border-radius: .6rem;
+}
+.confirm__details > div {
+  display: grid;
+  grid-template-columns: 11rem 1fr;
+  gap: .3rem 1.5rem;
+  padding: .85rem 1.2rem;
+}
+.confirm__details > div[hidden] { display: none; }
+.confirm__details > div + div { border-top: 1px solid var(--line); }
+.confirm__details dt { color: var(--muted); font-size: .92rem; font-weight: 300; }
+.confirm__details dd { margin: 0; font-size: 1rem; overflow-wrap: anywhere; white-space: pre-line; }
+.confirm__help { margin: 1.5rem 0 0; color: var(--muted); font-size: .95rem; font-weight: 300; line-height: 1.6; }
+.confirm__help a { color: var(--color-cream); text-decoration: underline; text-underline-offset: .2em; }
+.confirm .step__foot { margin-top: 1.8rem; }
+a.btn { text-decoration: none; }
+
+@media (max-width: 700px) {
+  .confirm__details > div { grid-template-columns: 1fr; gap: .15rem; padding: .75rem 1rem; }
+}
+
+/* Spamskydd: dolt för människor */
+.honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+.note--privacy { margin-top: .7rem; max-width: 44rem; }
+.btn.is-sending { opacity: .7; cursor: progress; pointer-events: none; }

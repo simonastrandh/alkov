@@ -1,0 +1,119 @@
+/* ---------- Navigering högst upp (byggs av nav.js) ---------- */
+
+:root { --nav-h: 4.25rem; }
+
+.site-nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 60;
+  padding-top: env(safe-area-inset-top, 0px);
+  background: rgba(21, 20, 22, .94);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(239, 227, 211, .1);
+  color: var(--color-cream, #efe3d3);
+  font-family: var(--font-serif, "Fraunces", Georgia, serif);
+  transition: background-color .3s ease, border-color .3s ease;
+}
+.site-nav__bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;      /* loggan till vänster, länkarna mitt på skärmen, Boka bord till höger */
+  align-items: center;
+  gap: 1.5rem;
+  width: min(100% - 2.5rem, 76rem);
+  height: var(--nav-h);
+  margin-inline: auto;
+}
+.site-nav__logo { display: block; justify-self: start; }
+.site-nav__logo img { display: block; width: auto; height: 1.7rem; }
+
+.site-nav__links { display: contents; }
+.site-nav__links ul { display: flex; gap: clamp(1.5rem, 3.5vw, 3rem); margin: 0; padding: 0; list-style: none; }
+.site-nav__links a {
+  color: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.site-nav__links ul a {
+  padding-block: .35rem;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1.5px no-repeat;
+  transition: background-size .25s ease;
+}
+.site-nav__links ul a:hover,
+.site-nav__links ul a:focus-visible,
+.site-nav__links ul a[aria-current="page"] { background-size: 100% 1.5px; }
+
+/* Boka bord: samma ljusa knapp som "Boka bord" under öppettiderna */
+.site-nav__cta {
+  justify-self: end;
+  padding: .6rem 1.3rem;
+  border-radius: 999px;
+  background: var(--color-cream, #efe3d3);
+  color: var(--color-wine, #5c1f2c) !important;
+  font-size: .85rem !important;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  transition: background-color .2s ease, transform .2s ease;
+}
+.site-nav__cta:hover { background: #fff; transform: translateY(-1px); }
+.site-nav a:focus-visible { outline: 2px solid var(--color-cream, #efe3d3); outline-offset: 3px; border-radius: 4px; }
+
+.site-nav__burger { display: none; }
+
+/* Startsidan: högst upp syns ingenting av fältet (hela filmen och den stora loggan får synas),
+   och när man scrollat glider hela fältet in */
+.site-nav--home { transition: opacity .3s ease, transform .3s ease, visibility 0s, background-color .3s ease; }
+.site-nav--home:not(.is-scrolled):not(.is-open) {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-.75rem);
+  pointer-events: none;
+  transition: opacity .3s ease, transform .3s ease, visibility 0s .3s;
+}
+
+/* Undersidor: innehållet börjar under fältet */
+body:not(.home) { padding-top: calc(var(--nav-h) + env(safe-area-inset-top, 0px)); }
+
+@media (max-width: 800px) {
+  :root { --nav-h: 3.75rem; }
+  .site-nav__bar { display: flex; justify-content: space-between; }
+  .site-nav.is-open { background: #151416; -webkit-backdrop-filter: none; backdrop-filter: none; }   /* fältet och menyn under är samma färg */
+  .site-nav__burger {
+    display: grid;
+    gap: 5px;
+    align-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-right: -.6rem;
+    border: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+  }
+  .site-nav__burger span { display: block; width: 1.5rem; height: 2px; margin-inline: auto; background: currentColor; border-radius: 2px; transition: transform .25s ease, opacity .2s ease; }
+  .is-open .site-nav__burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .is-open .site-nav__burger span:nth-child(2) { opacity: 0; }
+  .is-open .site-nav__burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .site-nav__links {
+    display: flex;
+    position: absolute;
+    inset: 100% 0 auto 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
+    padding: 1.25rem 1.25rem 1.75rem;
+    background: #151416;
+    border-bottom: 1px solid rgba(239, 227, 211, .1);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity .25s ease, transform .25s ease, visibility 0s .25s;
+  }
+  .is-open .site-nav__links { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
+  .site-nav__links ul { flex-direction: column; gap: .4rem; }
+  .site-nav__links ul a { display: inline-block; font-size: 1.5rem; font-weight: 400; }
+  .site-nav__cta { text-align: center; padding: .9rem 1.3rem; }
+}
+@media (prefers-reduced-motion: reduce) { .site-nav, .site-nav--home, .site-nav__links, .site-nav__cta { transition: none; } }
