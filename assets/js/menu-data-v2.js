@@ -13,7 +13,7 @@ window.ALKOV_MENU = {
         ['Pickles', '75 :-', 'smetana & honung'],
         ['Brioche', '75 :-', 'vispat olivsmör'],
         ['Chips med dipp', '85 :-'],
-        ['Boqueros', '125 :-', 'citron, surdegsbröd & gremolata'],
+        ['Boquerones', '125 :-', 'citron, surdegsbröd & gremolata'],
       ],
     },
     {
