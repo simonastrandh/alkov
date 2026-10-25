@@ -11,7 +11,7 @@
   // 1. Gå till https://web3forms.com, skriv in den e-postadress som ska få bokningarna och hämta nyckeln.
   // 2. Klistra in nyckeln här. Den är offentlig och är ingen hemlighet, den kan bara skicka e-post till din adress.
   // Byta mottagare senare: skapa en ny nyckel med den nya adressen och byt ut den här.
-  const WEB3FORMS_KEY = 'b662d343-0730-4540-90e9-dea721a932dc';   // mottagare just nu: simon.a.strandh@gmail.com (test)
+  const WEB3FORMS_KEY = 'b662d343-0730-4540-90e9-dea721a932dc';   // mottagare: alkov.bar@gmail.com
   const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
   const RESTAURANT_PHONE = '+46 72-215 09 16';
   const DEMO = /[?&]demo/.test(location.search);    // ?demo i adressen: visa bekräftelsen utan att skicka något
@@ -293,7 +293,7 @@
     return {
       access_key: WEB3FORMS_KEY,
       subject: `Ny bokning: ${DAYS[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()]} kl ${state.time}, ${g === '6+' ? '6+' : g} pers – ${name}`,
-      from_name: 'Bordsbokning - baralkov.se',
+      from_name: '-- BORDSBOKNING --',
       Datum: dateLong,
       Tid: state.time,
       Sällskap: guests,
