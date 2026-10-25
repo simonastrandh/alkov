@@ -41,13 +41,17 @@
   height: auto;
 }
 .hero__cta {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;      /* alla knappar lika breda som den bredaste */
   justify-content: center;
   gap: 1rem;
 }
+@media (max-width: 480px) { .hero__cta { grid-auto-flow: row; } }   /* på smala skärmar ligger knapparna under varandra, lika breda */
 .hero__btn {
   padding: .8rem 1.7rem;
+  text-align: center;
+  white-space: nowrap;
   border: 1px solid transparent;
   color: var(--color-cream);
   font-family: "Inter", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
