@@ -11,7 +11,7 @@
   // 1. Gå till https://web3forms.com, skriv in den e-postadress som ska få bokningarna och hämta nyckeln.
   // 2. Klistra in nyckeln här. Den är offentlig och är ingen hemlighet, den kan bara skicka e-post till din adress.
   // Byta mottagare senare: skapa en ny nyckel med den nya adressen och byt ut den här.
-  const WEB3FORMS_KEY = '101332ed-0d16-4f86-b2a4-d87996aa0b1e';   // mottagare just nu: simon.a.strandh@gmail.com (test)
+  const WEB3FORMS_KEY = 'b662d343-0730-4540-90e9-dea721a932dc';   // mottagare just nu: simon.a.strandh@gmail.com (test)
   const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
   const RESTAURANT_PHONE = '+46 72-215 09 16';
   const DEMO = /[?&]demo/.test(location.search);    // ?demo i adressen: visa bekräftelsen utan att skicka något
