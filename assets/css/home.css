@@ -50,9 +50,10 @@
   padding: .8rem 1.7rem;
   border: 1px solid transparent;
   color: var(--color-cream);
-  font-size: .85rem;
-  font-weight: 400;
-  letter-spacing: .06em;
+  font-family: "Inter", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  font-size: .78rem;
+  font-weight: 500;
+  letter-spacing: .1em;
   text-transform: uppercase;
   text-decoration: none;
   transition: background-color .2s ease, color .2s ease, border-color .2s ease;
